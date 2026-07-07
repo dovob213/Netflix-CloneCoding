@@ -36,8 +36,9 @@ class MoreScreen extends StatelessWidget {
               padding: EdgeInsets.all(10),
               child: Linkify(
                 onOpen: (link) async {
-                  if (await canLaunch(link.url)) {
-                    await launch(link.url);
+                  final uri = Uri.parse(link.url);
+                  if (await canLaunchUrl(uri)) {
+                    await launchUrl(uri);
                   }
                 },
                 text: "https://github.com/TaeBbong",
@@ -47,7 +48,7 @@ class MoreScreen extends StatelessWidget {
             ),
             Container(
               padding: EdgeInsets.all(10),
-              child: FlatButton(
+              child: TextButton(
                 onPressed: () {},
                 child: Container(
                   color: Colors.red,

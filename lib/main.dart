@@ -8,11 +8,11 @@ import 'package:netflix_clone_test/widget/bottom_bar.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
+  @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  TabController controller;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -20,7 +20,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         brightness: Brightness.dark,
         primaryColor: Colors.black,
-        accentColor: Colors.white,
+        colorScheme: ColorScheme.dark(secondary: Colors.white),
       ),
       home: DefaultTabController(
         length: 4,

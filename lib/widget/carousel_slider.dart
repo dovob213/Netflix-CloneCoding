@@ -5,23 +5,24 @@ import 'package:netflix_clone_test/screen/detail_screen.dart';
 
 class CarouselImage extends StatefulWidget {
   final List<Movie> movies;
-  CarouselImage({this.movies});
+  CarouselImage({required this.movies});
+  @override
   _CarouselImageState createState() => _CarouselImageState();
 }
 
 class _CarouselImageState extends State<CarouselImage> {
-  List<Movie> movies;
-  List<Widget> images;
-  List<String> keywords;
-  List<bool> likes;
+  late List<Movie> movies;
+  late List<Widget> images;
+  late List<String> keywords;
+  late List<bool> likes;
   int _currentPage = 0;
-  String _currentKeyword;
+  late String _currentKeyword;
 
   @override
   void initState() {
     super.initState();
     movies = widget.movies;
-    images = movies.map((m) => Image.network(m.poster)).toList();
+    images = movies.map((m) => Image.asset(m.poster)).toList();
     keywords = movies.map((m) => m.keyword).toList();
     likes = movies.map((m) => m.like).toList();
     _currentKeyword = keywords[0];
@@ -37,12 +38,14 @@ class _CarouselImageState extends State<CarouselImage> {
           ),
           CarouselSlider(
             items: images,
-            onPageChanged: (index) {
-              setState(() {
-                _currentPage = index;
-                _currentKeyword = keywords[_currentPage];
-              });
-            },
+            options: CarouselOptions(
+              onPageChanged: (index, reason) {
+                setState(() {
+                  _currentPage = index;
+                  _currentKeyword = keywords[_currentPage];
+                });
+              },
+            ),
           ),
           Container(
             padding: EdgeInsets.fromLTRB(0, 10, 0, 3),
@@ -64,8 +67,8 @@ class _CarouselImageState extends State<CarouselImage> {
                               onPressed: () {
                                 setState(() {
                                   likes[_currentPage] = !likes[_currentPage];
-                                  movies[_currentPage].reference.updateData(
-                                      {'like': likes[_currentPage]});
+                                  movies[_currentPage].like =
+                                      likes[_currentPage];
                                 });
                               },
                             )
@@ -74,8 +77,8 @@ class _CarouselImageState extends State<CarouselImage> {
                               onPressed: () {
                                 setState(() {
                                   likes[_currentPage] = !likes[_currentPage];
-                                  movies[_currentPage].reference.updateData(
-                                      {'like': likes[_currentPage]});
+                                  movies[_currentPage].like =
+                                      likes[_currentPage];
                                 });
                               },
                             ),
@@ -88,8 +91,8 @@ class _CarouselImageState extends State<CarouselImage> {
                 ),
                 Container(
                   padding: EdgeInsets.only(right: 10),
-                  child: FlatButton(
-                    color: Colors.white,
+                  child: TextButton(
+                    style: TextButton.styleFrom(backgroundColor: Colors.white),
                     onPressed: () {},
                     child: Row(
                       children: <Widget>[

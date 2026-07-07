@@ -4,7 +4,7 @@ import 'package:netflix_clone_test/screen/detail_screen.dart';
 
 class BoxSlider extends StatelessWidget {
   final List<Movie> movies;
-  BoxSlider({this.movies});
+  BoxSlider({required this.movies});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -43,7 +43,7 @@ List<Widget> makeBoxImages(BuildContext context, List<Movie> movies) {
         padding: EdgeInsets.only(right: 10),
         child: Align(
           alignment: Alignment.centerLeft,
-          child: Image.network(movies[i].poster),
+          child: Image.asset(movies[i].poster),
         ),
       ),
     ));

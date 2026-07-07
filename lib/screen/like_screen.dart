@@ -1,41 +1,33 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:netflix_clone_test/data/mock_movies.dart';
 import 'package:netflix_clone_test/model/model_movie.dart';
 import 'package:netflix_clone_test/screen/detail_screen.dart';
 
 class LikeScreen extends StatefulWidget {
+  @override
   _LikeScreenState createState() => _LikeScreenState();
 }
 
 class _LikeScreenState extends State<LikeScreen> {
   Widget _buildBody(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: Firestore.instance
-          .collection('movie')
-          .where('like', isEqualTo: true)
-          .snapshots(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) return LinearProgressIndicator();
-        return _buildList(context, snapshot.data.documents);
-      },
-    );
+    final liked = mockMovies.where((m) => m.like).toList();
+    return _buildList(context, liked);
   }
 
-  Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
+  Widget _buildList(BuildContext context, List<Movie> movies) {
     return Expanded(
       child: GridView.count(
           crossAxisCount: 3,
           childAspectRatio: 1 / 1.5,
           padding: EdgeInsets.all(3),
           children:
-              snapshot.map((data) => _buildListItem(context, data)).toList()),
+              movies.map((data) => _buildListItem(context, data)).toList()),
     );
   }
 
-  Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
-    final movie = Movie.fromSnapshot(data);
+  Widget _buildListItem(BuildContext context, Movie movie) {
     return InkWell(
-      child: Image.network(movie.poster),
+      child: Image.asset(movie.poster),
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute<Null>(
             fullscreenDialog: true,

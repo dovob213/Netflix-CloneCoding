@@ -4,7 +4,8 @@ import 'package:netflix_clone_test/model/model_movie.dart';
 
 class DetailScreen extends StatefulWidget {
   final Movie movie;
-  DetailScreen({this.movie});
+  DetailScreen({required this.movie});
+  @override
   _DetailScreenState createState() => _DetailScreenState();
 }
 
@@ -29,7 +30,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     width: double.maxFinite,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: NetworkImage(widget.movie.poster),
+                        image: AssetImage(widget.movie.poster),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -38,13 +39,13 @@ class _DetailScreenState extends State<DetailScreen> {
                         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                         child: Container(
                           alignment: Alignment.center,
-                          color: Colors.black.withOpacity(0.1),
+                          color: Colors.black.withValues(alpha: 0.1),
                           child: Container(
                             child: Column(
                               children: <Widget>[
                                 Container(
                                   padding: EdgeInsets.fromLTRB(0, 45, 0, 10),
-                                  child: Image.network(widget.movie.poster),
+                                  child: Image.asset(widget.movie.poster),
                                   height: 300,
                                 ),
                                 Container(
@@ -67,9 +68,10 @@ class _DetailScreenState extends State<DetailScreen> {
                                 ),
                                 Container(
                                   padding: EdgeInsets.all(3),
-                                  child: FlatButton(
+                                  child: TextButton(
                                     onPressed: () {},
-                                    color: Colors.red,
+                                    style: TextButton.styleFrom(
+                                        backgroundColor: Colors.red),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -121,7 +123,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         onTap: () {
                           setState(() {
                             like = !like;
-                            widget.movie.reference.updateData({'like': like});
+                            widget.movie.like = like;
                           });
                         },
                         child: Column(
